@@ -11,7 +11,6 @@ function App() {
   return (
     <div className="App">
       <h2>My tasks</h2>
-      <CategoryFilter CATEGORIES={CATEGORIES} />
       <NewTaskForm />
       <TaskList TASKS={ TASKS} />
     </div>

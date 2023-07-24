@@ -1,28 +1,27 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import Task from "./Task";
 import CategoryFilter from "./CategoryFilter";
 import { CATEGORIES } from "../data";
 
 function TaskList({ TASKS }) {
   const [deleted, setDeleted] = useState(TASKS);
-  const [filter, setFilter] = useState("ALL");
-
+  const [category, setCategory] = useState("All");
   function handleCategoryClick(category) {
-    if (category === "ALL") {
-      setDeleted(TASKS);
+    if (category === "All") {
+      return "All";
     } else {
       const filteredTasks = TASKS.filter((task) => task.category === category);
       setDeleted(filteredTasks);
     }
-    setFilter(category);
+    setCategory(category);
   }
   function handleDelete(taskText) {
-    const updatedList = deleted.filter((task) => task.text !== taskText);
+    const updatedList = deleted.category((task) => task.text !== taskText);
     setDeleted(updatedList);
   }
-
+  const displayTasks = deleted.filter((task) => category === "All" || task.category === category)
   function renderList() {
-    return deleted.map((task) => (
+    return displayTasks.map((task) => (
       <li key={task.text}>
         <Task task={task} handleDelete={handleDelete} />
       </li>
@@ -34,11 +33,11 @@ function TaskList({ TASKS }) {
       <CategoryFilter
         CATEGORIES={CATEGORIES}
         handleCategoryClick={handleCategoryClick}
-        activeCategory={filter}
+        activeCategory={category}
+        setCategory ={setCategory}
       />
       {/* display a list of tasks using Task component */}
       <ul>{renderList()}</ul>
-      
     </div>
   );
 }
